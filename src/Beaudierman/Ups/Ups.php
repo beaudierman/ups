@@ -139,7 +139,7 @@ class Ups {
 		if($number > 1)
 		{
 			$individual_weight = $weight / $number;
-			for($i = 0; $i < $number_of_packages; $i++)
+			for($i = 0; $i < $number; $i++)
 			{
 				$packages[] = '<Package>
 					<PackagingType>
