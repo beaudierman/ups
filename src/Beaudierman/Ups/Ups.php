@@ -63,12 +63,16 @@ class Ups {
 	 * an array containing all available shipping
 	 * options with rates
 	 *
+	 * @param credentials array
 	 * @param options array
 	 *
 	 * @return array
 	 **/
-	public function getQuote($options)
+	public function getQuote($credentials, $options)
 	{
+		// Load the credentials
+		$this->loadCredentials($credentials);
+
 		// Run the options array through the default check
 		$options = $this->checkDefaults($options);
 
