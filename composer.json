@@ -1,6 +1,12 @@
 {
     "name": "beaudierman/ups",
     "description": "A simple tool to return UPS shipping rates.",
+    "keywords": [
+        "laravel",
+        "ups",
+        "shipping"
+    ],
+    "homepage": "https://github.com/beaudierman/ups",
     "license": "MIT",
     "authors": [
         {
