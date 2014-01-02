@@ -19,13 +19,6 @@ class UpsServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->package('beaudierman/ups');
-
-		$app = $this->app;
-
-		$this->app->before(function() use ($app)
-		{
-			$app['ups']->loadCredentials($app['config']->get('ups::credentials'));
-		});
 	}
 
 	/**

@@ -22,20 +22,15 @@ Add a class alias in the same configuration file to the ```aliases``` array:
 ```
 'Ups'             => 'Beaudierman\Ups\Facades\Ups'
 ```
-
-Edit the configuration file located at ```vendors/beaudierman/src/config/config.php``` to reflect your UPS.com credentials:
-```
-'credentials' => array(
-  'access_key' => 'your key',
-  'username' => 'your username',
-  'password' => 'your password',
-  'account_number' => 'your account number',
-),
-```
-
 Example:
 ```
 $return = Ups::getQuote(
+    array(
+        'access_key' => 'your key',
+        'username' => 'your username',
+        'password' => 'your password',
+        'account_number' => 'your account number',
+    ),
 	array(
 		'from_zip' => '37902',
 		'to_zip' => 90210,
