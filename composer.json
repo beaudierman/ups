@@ -1,0 +1,21 @@
+{
+    "name": "beaudierman/ups",
+    "description": "A simple tool to return UPS shipping rates.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Beau Dierman",
+            "email": "beaudierman@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.1.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Beaudierman\\Ups\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
