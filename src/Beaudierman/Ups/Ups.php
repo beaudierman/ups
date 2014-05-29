@@ -117,7 +117,7 @@ class Ups {
 					<Description>Package</Description>
 				</Service>
 				<ShipmentServiceOptions/>
-				' . $this->buildPackages($options['packages'], $options['weight']) . '
+				' . $this->buildPackages($options['packages'], $options['weight'], $options['measurement']) . '
 			</Shipment>
 		</RatingServiceSelectionRequest>';
 
@@ -130,10 +130,11 @@ class Ups {
 	 *
 	 * @param number integer
 	 * @param weight float
+	 * @param measurement string
 	 *
 	 * @return string
 	 **/
-	private function buildPackages($number, $weight)
+	private function buildPackages($number, $weight, $measurement = 'LBS')
 	{
 		$packages = array();
 		if($number > 1)
@@ -147,7 +148,7 @@ class Ups {
 					</PackagingType>
 					<PackageWeight>
 						<UnitOfMeasurement>
-							<Code>LBS</Code>
+							<Code>' . $measurement . '</Code>
 						</UnitOfMeasurement>
 						<Weight>' . $individual_weight . '</Weight>
 					</PackageWeight>
