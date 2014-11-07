@@ -40,7 +40,8 @@ $return = Ups::getQuote(
         'to_country' => 'US', // Optional, defaults to US
 		'packages' => 1,
 		'weight' => 50,
-        'measurement' => 'LBS' // Currently the UPS API will only allow LBS and KG, default is LBS
+        'measurement' => 'LBS', // Currently the UPS API will only allow LBS and KG, default is LBS
+        'negotiated_rates' => true // Optional, set true to return negotiated rates from UPS
 	)
 );
 ```

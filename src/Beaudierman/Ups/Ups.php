@@ -78,6 +78,8 @@ class Ups {
 
 		$residential_flag = isset($options['commercial']) ? '' : '<ResidentialAddressIndicator/>';
 
+		$negotiated_flag = ($this->negotiated_rates) ? '<RateInformation><NegotiatedRatesIndicator/></RateInformation>' : '';
+
 		$this->xml = '<?xml version="1.0"?>
 		<AccessRequest xml:lang="en-US">
 			<AccessLicenseNumber>' . $this->access_key . '</AccessLicenseNumber>
@@ -119,7 +121,7 @@ class Ups {
 					<Description>Package</Description>
 				</Service>
 				<ShipmentServiceOptions/>
-				' . $this->buildPackages($options['packages'], $options['weight'], $options['measurement']) . '
+				' . $this->buildPackages($options['packages'], $options['weight'], $options['measurement']) . $negotiated_flag . '
 			</Shipment>
 		</RatingServiceSelectionRequest>';
 
@@ -237,7 +239,14 @@ class Ups {
 		{
 			$service = $this->xml_result->RatedShipment[$key]->children();
 
-			$rate = number_format((double)($service->TransportationCharges->MonetaryValue), 2);
+			if($this->negotiated_rates && $service->NegotiatedRates->NetSummaryCharges->GrandTotal->MonetaryValue)
+			{
+				$rate = number_format((double)($service->NegotiatedRates->NetSummaryCharges->GrandTotal->MonetaryValue), 2);
+			}
+			else
+			{
+				$rate = number_format((double)($service->TransportationCharges->MonetaryValue), 2);
+			}
 
 			$shipping_choices["{$service->Service->Code}"] = array(
 				'service' => $this->shipperCodes("{$service->Service->Code}"),
@@ -337,6 +346,8 @@ class Ups {
 		{
 			$options['to_state'] = '';
 		}
+
+		$this->negotiated_rates = (isset($options['negotiated_rates']) && $options['negotiated_rates']) ? true : false;
 			
 		return $options;
 	}
