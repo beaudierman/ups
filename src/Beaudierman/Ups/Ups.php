@@ -102,12 +102,14 @@ class Ups {
 					<ShipperNumber>' . $this->account_number . '</ShipperNumber>
 					<Address>
 						<PostalCode>' . $options['from_zip'] . '</PostalCode>
+						<StateProvinceCode>' . $options['from_state'] . '</StateProvinceCode>
 						<CountryCode>' . $options['from_country'] . '</CountryCode>
 					</Address>
 				</Shipper>
 				<ShipTo>
 					<Address>
 						<PostalCode>' . $options['to_zip'] . '</PostalCode>
+						<StateProvinceCode>' . $options['to_state'] . '</StateProvinceCode>
 						<CountryCode>' . $options['to_country'] . '</CountryCode>
 						' . $residential_flag .'
 					</Address>
@@ -326,6 +328,14 @@ class Ups {
 		if(!isset($options['service_type']))
 		{
 			$options['service_type'] = '03';
+		}
+		if(!isset($options['from_state']))
+		{
+			$options['from_state'] = '';
+		}
+		if(!isset($options['to_state']))
+		{
+			$options['to_state'] = '';
 		}
 			
 		return $options;

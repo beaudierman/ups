@@ -33,7 +33,11 @@ $return = Ups::getQuote(
     ),
 	array(
 		'from_zip' => '37902',
-		'to_zip' => 90210,
+        'from_state' => 'TN', // Optional, may yield a more accurate quote
+        'from_country' => 'US', // Optional, defaults to US
+		'to_zip' => '90210',
+        'to_state' => 'CA', // Optional, may yield a more accurate quote
+        'to_country' => 'US', // Optional, defaults to US
 		'packages' => 1,
 		'weight' => 50,
         'measurement' => 'LBS' // Currently the UPS API will only allow LBS and KG, default is LBS
