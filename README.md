@@ -7,7 +7,7 @@ Install using Composer, edit your project's ```composer.json``` file to read:
 ```
 "require": {
 	"laravel/framework": "4.1.*",
-	"beaudierman/ups": "dev-master"
+	"beaudierman/ups": "1.0.*"
 }
 ```
 Update composer from the command line:
