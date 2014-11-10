@@ -37,6 +37,12 @@ class Ups {
 	private $negotiated_rates;
 
 	/**
+	 * @var commercial_rates boolean
+	 * If true, returns rate for commercial address. If false, returns rate for residential address
+	 */
+	private $commercial_rates;
+
+	/**
 	 * @var url string
 	 * The location of the UPS API endpoint
 	 **/
@@ -76,7 +82,7 @@ class Ups {
 		// Run the options array through the default check
 		$options = $this->checkDefaults($options);
 
-		$residential_flag = isset($options['commercial']) ? '' : '<ResidentialAddressIndicator/>';
+		$residential_flag = ($this->commercial_rates) ? '' : '<ResidentialAddressIndicator/>';
 
 		$negotiated_flag = ($this->negotiated_rates) ? '<RateInformation><NegotiatedRatesIndicator/></RateInformation>' : '';
 
@@ -346,6 +352,8 @@ class Ups {
 		{
 			$options['to_state'] = '';
 		}
+
+		$this->commercial_rates = (isset($options['commercial']) && $options['commercial']) ? true : false;
 
 		$this->negotiated_rates = (isset($options['negotiated_rates']) && $options['negotiated_rates']) ? true : false;
 			
