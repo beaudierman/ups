@@ -46,7 +46,7 @@ class Ups {
 	 * @var url string
 	 * The location of the UPS API endpoint
 	 **/
-	private $url = 'https://www.ups.com/ups.app/xml/Rate';
+	private $url = 'https://onlinetools.ups.com/ups.app/xml/Rate';
 
 	/**
 	 * Load UPS.com credentials from the config file
