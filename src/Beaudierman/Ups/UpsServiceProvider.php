@@ -18,7 +18,7 @@ class UpsServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('beaudierman/ups');
+		//
 	}
 
 	/**
