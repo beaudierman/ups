@@ -3,11 +3,10 @@ UPS
 
 This package is used to send shipment rate quote requests to the UPS webservice.
 
-Install using Composer, edit your project's ```composer.json``` file to read:
+Install using Composer, edit your ```composer.json``` file to include:
 ```
 "require": {
-	"laravel/framework": "4.1.*",
-	"beaudierman/ups": "1.0.*"
+	"beaudierman/ups": "1.*"
 }
 ```
 Update composer from the command line:
