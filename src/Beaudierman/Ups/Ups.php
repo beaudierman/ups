@@ -173,7 +173,7 @@ class Ups {
 				</PackagingType>
 				<PackageWeight>
 					<UnitOfMeasurement>
-						<Code>LBS</Code>
+						<Code>' . $measurement . '</Code>
 					</UnitOfMeasurement>
 					<Weight>' . $weight . '</Weight>
 				</PackageWeight>
