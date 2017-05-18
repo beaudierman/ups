@@ -28,9 +28,8 @@ class UpsServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app['ups'] = $this->app->share(function($app)
-		{
-			return new Ups;
+		$this->app->singleton('ups', function ($app) {
+				return new Ups;
 		});
 	}
 
