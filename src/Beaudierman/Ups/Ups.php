@@ -2,34 +2,34 @@
 
 class Ups {
 
-	
+
 	private $xml;
 	protected $xml_result;
-	
+
 	/**
 	 * @var access_key string
 	 * The access key from your UPS account
 	 **/
 	private $access_key;
-	
+
 	/**
 	 * @var username string
 	 * The username you log in to ups.com with
 	 **/
 	private $username;
-	
+
 	/**
 	 * @var password string
 	 * The password for the above username
 	 **/
 	private $password;
-	
+
 	/**
 	 * @var account_number string
 	 * Your UPS account number(numbers only, no special characters such as dashes)
 	 **/
 	private $account_number;
-	
+
 	/**
 	 * @var negotiated_rates boolean
 	 * Negotiated rates flag - Some UPS accounts have special negotiated rates enabled
@@ -53,7 +53,7 @@ class Ups {
 	 * located at beaudierman/ups/src/config/config.php
 	 *
 	 * @param credentials array
-	 * 
+	 *
 	 * @return void
 	 **/
 	public function loadCredentials($credentials)
@@ -195,20 +195,34 @@ class Ups {
 	 **/
 	private function send()
 	{
-		$ch = curl_init($this->url);
-		curl_setopt($ch, CURLOPT_HEADER, 1);
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $this->xml);
-		$result = curl_exec($ch);
-		$this->xml = strstr($result, '<?');
+			try {
+					$ch = curl_init($this->url);
+					curl_setopt($ch, CURLOPT_HEADER, 1);
+					curl_setopt($ch, CURLOPT_POST, 1);
+					curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+					curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+					curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+					curl_setopt($ch, CURLOPT_POSTFIELDS, $this->xml);
+					$result = curl_exec($ch);
 
-		$this->xml_result = new \SimpleXMLElement($this->xml);
+					if (FALSE === $result)
+					{
+							throw new \Exception(curl_error($ch), curl_errno($ch));
+					}
 
-		return $this->parseResult();
+					$this->xml = strstr($result, '<?');
+
+					$this->xml_result = new \SimpleXMLElement($this->xml);
+
+					return $this->parseResult();
+			} catch(\Exception $e) {
+					trigger_error(sprintf(
+							'Curl failed with error #%d: %s',
+							$e->getCode(), $e->getMessage()),
+							E_USER_ERROR);
+
+			}
 	}
 
 	/**
@@ -245,7 +259,9 @@ class Ups {
 		{
 			$service = $this->xml_result->RatedShipment[$key]->children();
 
-			if($this->negotiated_rates && $service->NegotiatedRates->NetSummaryCharges->GrandTotal->MonetaryValue)
+			if($this->negotiated_rates &&
+			$service->NegotiatedRates->NetSummaryCharges &&
+			$service->NegotiatedRates->NetSummaryCharges->GrandTotal->MonetaryValue)
 			{
 				$rate = number_format((double)($service->NegotiatedRates->NetSummaryCharges->GrandTotal->MonetaryValue), 2);
 			}
@@ -356,7 +372,7 @@ class Ups {
 		$this->commercial_rates = (isset($options['commercial']) && $options['commercial']) ? true : false;
 
 		$this->negotiated_rates = (isset($options['negotiated_rates']) && $options['negotiated_rates']) ? true : false;
-			
+
 		return $options;
 	}
 }
