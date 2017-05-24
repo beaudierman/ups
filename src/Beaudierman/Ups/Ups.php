@@ -291,42 +291,46 @@ class Ups {
 	{
 		switch($service_code)
 		{
-			case '01':
-				return 'UPS Next Day Air';
-				break;
-			case '02':
-				return 'UPS 2nd Day Air';
-				break;
-			case '03':
-				return 'UPS Ground';
-				break;
-			case '07':
-				return 'UPS Worldwide Express';
-				break;
-			case '08':
-				return 'UPS Worldwide Expedited';
-				break;
+			/* service codes: Shipments originating in United States */
 			case '11':
 				return 'UPS Standard';
 				break;
-			case '12':
-				return 'UPS 3 Day Select';
-				break;
-			case '13':
-				return 'Next Day Air Saver';
-				break;
-			case '14':
-				return 'UPS Next Day Air Early AM';
+			case '07':
+					return 'UPS Worldwide Express';
+					break;
+			case '08':
+				return 'UPS Worldwide Expedited';
 				break;
 			case '54':
 				return 'UPS Worldwide Express Plus';
 				break;
-			case '59':
-				return 'UPS Second Day Air AM';
-				break;
 			case '65':
-				return 'UPS Saver';
+				return 'UPS Worldwide Saver';
 				break;
+
+			/* service codes: United States domestic shipments */
+			case '02':
+				return 'UPS 2nd Day Air';
+				break;
+			case '59':
+				return 'UPS 2nd Day Air A.M.';
+				break;
+			case '12':
+				return 'UPS 3 Day Select';
+				break;
+			case '03':
+				return 'UPS Ground';
+				break;
+			case '01':
+				return 'UPS Next Day Air';
+				break;
+			case '14':
+				return 'UPS Next Day Air Early';
+				break;
+			case '13':
+				return 'UPS Next Day Air Saver';
+				break;
+
 			default:
 				return false;
 				break;
