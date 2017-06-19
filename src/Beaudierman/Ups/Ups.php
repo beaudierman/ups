@@ -42,6 +42,20 @@ class Ups {
 	 */
 	private $commercial_rates;
 
+	/* constants for UPS service codes */
+	const SC_UPS_STANDARD = '11';
+	const SC_UPS_WORLDWIDE_EXPRESS = '07';
+	const SC_UPS_WORLDWIDE_EXPEDITED = '08';
+	const SC_UPS_WORLDWIDE_EXPRESS_PLUS = '54';
+	const SC_UPS_WORLDWIDE_SAVER = '65';
+	const SC_UPS_2ND_DAY_AIR = '02';
+	const SC_UPS_2ND_DAY_AIR_AM = '59';
+	const SC_UPS_3_DAY_SELECT = '12';
+	const SC_UPS_GROUND = '03';
+	const SC_UPS_NEXT_DAY_AIR = '01';
+	const SC_UPS_NEXT_DAY_AIR_EARLY = '14';
+	const SC_UPS_NEXT_DAY_AIR_SAVER = '13';
+
 	/**
 	 * @var url string
 	 * The location of the UPS API endpoint
@@ -292,42 +306,42 @@ class Ups {
 		switch($service_code)
 		{
 			/* service codes: Shipments originating in United States */
-			case '11':
+			case self::SC_UPS_STANDARD:
 				return 'UPS Standard';
 				break;
-			case '07':
+			case self::SC_UPS_WORLDWIDE_EXPRESS:
 					return 'UPS Worldwide Express';
 					break;
-			case '08':
+			case self::SC_UPS_WORLDWIDE_EXPEDITED:
 				return 'UPS Worldwide Expedited';
 				break;
-			case '54':
+			case self::SC_UPS_WORLDWIDE_EXPRESS_PLUS:
 				return 'UPS Worldwide Express Plus';
 				break;
-			case '65':
+			case self::SC_UPS_WORLDWIDE_SAVER:
 				return 'UPS Worldwide Saver';
 				break;
 
 			/* service codes: United States domestic shipments */
-			case '02':
+			case self::SC_UPS_2ND_DAY_AIR:
 				return 'UPS 2nd Day Air';
 				break;
-			case '59':
+			case self::SC_UPS_2ND_DAY_AIR_AM:
 				return 'UPS 2nd Day Air A.M.';
 				break;
-			case '12':
+			case self::SC_UPS_3_DAY_SELECT:
 				return 'UPS 3 Day Select';
 				break;
-			case '03':
+			case self::SC_UPS_GROUND:
 				return 'UPS Ground';
 				break;
-			case '01':
+			case self::SC_UPS_NEXT_DAY_AIR:
 				return 'UPS Next Day Air';
 				break;
-			case '14':
+			case self::SC_UPS_NEXT_DAY_AIR_EARLY:
 				return 'UPS Next Day Air Early';
 				break;
-			case '13':
+			case self::SC_UPS_NEXT_DAY_AIR_SAVER:
 				return 'UPS Next Day Air Saver';
 				break;
 
