@@ -167,6 +167,11 @@ class Ups
 					<PackagingType>
 						<Code>02</Code>
 					</PackagingType>
+          <PackageServiceOptions>
+            <DeliveryConfirmation>
+              <DCISType>2</DCISType>
+            </DeliveryConfirmation>
+          </PackageServiceOptions>
 					<PackageWeight>
 						<UnitOfMeasurement>
 							<Code>' . $measurement . '</Code>
