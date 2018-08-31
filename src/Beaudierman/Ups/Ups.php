@@ -118,6 +118,9 @@ class Ups
 			<PickupType>
 				<Code>03</Code>
 			</PickupType>
+      <CustomerClassification>
+    	 <Code>00</Code>
+     </CustomerClassification>
 			<Shipment>
 				<Shipper>
 					<ShipperNumber>' . $this->account_number . '</ShipperNumber>
@@ -167,12 +170,7 @@ class Ups
 					<PackagingType>
 						<Code>02</Code>
 					</PackagingType>
-          <PackageServiceOptions>
-            <DeliveryConfirmation>
-              <DCISType>2</DCISType>
-            </DeliveryConfirmation>
-          </PackageServiceOptions>
-					<PackageWeight>
+          <PackageWeight>
 						<UnitOfMeasurement>
 							<Code>' . $measurement . '</Code>
 						</UnitOfMeasurement>
@@ -185,6 +183,11 @@ class Ups
 				<PackagingType>
 					<Code>02</Code>
 				</PackagingType>
+        <PackageServiceOptions>
+          <DeliveryConfirmation>
+            <DCISType>2</DCISType>
+          </DeliveryConfirmation>
+        </PackageServiceOptions>
 				<PackageWeight>
 					<UnitOfMeasurement>
 						<Code>' . $measurement . '</Code>
@@ -227,7 +230,7 @@ class Ups
             $this->xml = strstr($result, '<?');
 
             $this->xml_result = new \SimpleXMLElement($this->xml);
-
+            
             return $this->parseResult();
         } catch (\Exception $e) {
             trigger_error(sprintf(
@@ -273,7 +276,8 @@ class Ups
             $service->NegotiatedRates->NetSummaryCharges->GrandTotal->MonetaryValue) {
                 $rate = number_format((double)($service->NegotiatedRates->NetSummaryCharges->GrandTotal->MonetaryValue), 2);
             } else {
-                $rate = number_format((double)($service->TransportationCharges->MonetaryValue), 2);
+                //Get TotalCharges to retrieve both TransportationCharges & ServiceOptionsCharges(delivery confirmation signature)
+                $rate = number_format((double)($service->TotalCharges->MonetaryValue), 2);
             }
 
             $shipping_choices["{$service->Service->Code}"] = array(
@@ -354,7 +358,8 @@ class Ups
     private function checkDefaults($options)
     {
         if (!isset($options['request_option'])) {
-            $options['request_option'] = 'Shop';
+            //only valid request option for UPS Ground Freight Pricing requests
+            $options['request_option'] = 'Rate';
         }
         if (!isset($options['from_country'])) {
             $options['from_country'] = 'US';
