@@ -139,11 +139,11 @@ class Ups
 					</Address>
 				</ShipTo>
 				<Service>
-					<Code>' . $options['service_type'] . '</Code>
+					<Code>' . $options['service_code'] . '</Code>
 					<Description>Package</Description>
 				</Service>
 				<ShipmentServiceOptions/>
-				' . $this->buildPackages($options['packages'], $options['weight'], $options['measurement']) . $negotiated_flag . '
+				' . $this->buildPackages($options['packages'], $options['weight'], $options['measurement'], $options['service_code'])  . $negotiated_flag . '
 			</Shipment>
 		</RatingServiceSelectionRequest>';
 
@@ -160,7 +160,7 @@ class Ups
      *
      * @return string
      **/
-    private function buildPackages($number, $weight, $measurement = 'LBS')
+    private function buildPackages($number, $weight, $measurement = 'LBS', $service_code)
     {
         $packages = array();
         if ($number > 1) {
@@ -179,22 +179,39 @@ class Ups
 				</Package>';
             }
         } else {
-            $packages[] = '<Package>
-				<PackagingType>
-					<Code>02</Code>
-				</PackagingType>
-        <PackageServiceOptions>
-          <DeliveryConfirmation>
-            <DCISType>2</DCISType>
-          </DeliveryConfirmation>
-        </PackageServiceOptions>
-				<PackageWeight>
-					<UnitOfMeasurement>
-						<Code>' . $measurement . '</Code>
-					</UnitOfMeasurement>
-					<Weight>' . $weight . '</Weight>
-				</PackageWeight>
-			</Package>';
+          switch($service_code) {
+            case self::SC_UPS_WORLDWIDE_EXPEDITED: //DeliveryConfirmation not supported; hence, there won't be any ServiceOptionsCharges
+                  $packages[] = '<Package>
+              <PackagingType>
+                <Code>02</Code>
+              </PackagingType>
+              <PackageWeight>
+                <UnitOfMeasurement>
+                  <Code>' . $measurement . '</Code>
+                </UnitOfMeasurement>
+                <Weight>' . $weight . '</Weight>
+              </PackageWeight>
+             </Package>';
+             break;
+
+            default: //SC_UPS_GROUND
+                $packages[] = '<Package>
+            <PackagingType>
+              <Code>02</Code>
+            </PackagingType>
+            <PackageServiceOptions>
+              <DeliveryConfirmation>
+                <DCISType>2</DCISType>
+              </DeliveryConfirmation>
+            </PackageServiceOptions>
+            <PackageWeight>
+              <UnitOfMeasurement>
+                <Code>' . $measurement . '</Code>
+              </UnitOfMeasurement>
+              <Weight>' . $weight . '</Weight>
+            </PackageWeight>
+           </Package>';
+          }
         }
 
         return implode('', $packages);
